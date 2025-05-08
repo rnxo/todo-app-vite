@@ -1,18 +1,12 @@
-import { useTodoState, useTodoDispatch } from "../context/useTodoContext";
+import { useTodoState } from "../context/useTodoContext";
 import { TaskForm } from "./TaskForm";
 import { TaskItem } from "./TaskItem";
-import { useState } from "react";
+//import { useState } from "react";
 
 export function TaskList() {
+	console.log("TaskList was called");
 	const tasks = useTodoState();
-	const dispatch = useTodoDispatch();
-	const [editContent, setEditContent] = useState("");
-
-	const handleEdit = (task) => {
-		setEditContent(task.content);
-		dispatch({ type: "TOGGLE_EDIT_MODE", id: task.id });
-	};
-
+		
 	return (
 		<ul>
 			{tasks.map((task) => (
@@ -20,13 +14,11 @@ export function TaskList() {
 					{task.edit ? (
 						<TaskForm
 							task={task}
-							editContent={editContent}
-							setEditContent={setEditContent}
+							editContent={task.content}
 						/>
 					) : (
 						<TaskItem 
 							task={task}
-							handleEdit={handleEdit}
 						/>
 					)}
 				</div>

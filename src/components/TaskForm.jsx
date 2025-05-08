@@ -1,30 +1,33 @@
 import { useTodoDispatch } from "../context/useTodoContext";
+import { useState } from "react";
+import styles from "./TaskForm.module.css";
 import PropTypes from 'prop-types';
 
-export function TaskForm({ task, editContent, setEditContent}) {
+export function TaskForm({ task, editContent }) {
     const dispatch = useTodoDispatch();
-    
+	//state for onChange event
+	const [ editText, setEditText ] = useState(editContent);
+	
     const handleUpdate = (task) => {
-		dispatch({ type: "TASK_EDIT", payload: { id: task.id, content: editContent } });
+		dispatch({ type: "TASK_EDITED", payload: { id: task.id, content: editText } });
 	};
 
     return (
-		<>
+		<div className={styles.TaskForm}>
 			<input
 				type="text"
-				value={editContent}
-				onChange={(e) => setEditContent(e.target.value)}
+				value={editText}
+				onChange={(e) => setEditText(e.target.value)}
 			/>
-			<button type="button" onClick={() => handleUpdate(task)}>
+			<button type="button" className={styles.button} onClick={() => handleUpdate(task)}>
 				SAVE
 			</button>
-		</>
+		</div>
 	);
 }
 
 TaskForm.propTypes = {
     editContent: PropTypes.string.isRequired,
-    setEditContent: PropTypes.func.isRequired,
-    task: PropTypes.object.isRequired
+	task: PropTypes.object.isRequired
 };
 
