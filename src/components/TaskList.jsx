@@ -4,7 +4,6 @@ import { TaskItem } from "./TaskItem";
 //import { useState } from "react";
 
 export function TaskList() {
-	console.log("TaskList was called");
 	const tasks = useTodoState();
 		
 	return (

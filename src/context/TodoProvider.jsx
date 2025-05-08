@@ -5,9 +5,9 @@ const TodoContext = createContext();
 const TodoDispatchContext = createContext();
 
 const initState = [
-	{ id: 1, content: "for frontend: react.js", edit: false },
-	{ id: 2, content: "for backend: python FastAPI", edit: false },
-	{ id: 3, content: "ultimate goal: react.js + FastAPI", edit: false },
+	{ id: 1, content: "task 1", edit: false },
+	{ id: 2, content: "テストタスク", edit: false },
+	{ id: 3, content: "ultimate goal: react native", edit: false },
 ];
 
 const taskReducer = (tasks, action) => {
