@@ -4,11 +4,18 @@ import PropTypes from "prop-types";
 const TodoContext = createContext();
 const TodoDispatchContext = createContext();
 
-const initState = [
-	{ id: 1, content: "task 1", edit: false },
-	{ id: 2, content: "テストタスク", edit: false },
-	{ id: 3, content: "ultimate goal: react native", edit: false },
+const initSubState = [
+	{ id: 11, content: "SubTask1", edit: false, },
+	{ id: 12, content: "サブタスク", edit: false, },
+	{ id: 13, content: "task in task", edit: false, },
 ];
+
+const initState = [
+	{ id: 1, content: "MainTask1", edit: false, children: initSubState },
+	{ id: 2, content: "メインタスク２", edit: false, children: []},
+	{ id: 3, content: "make your day productively", edit: false, children: [] },
+];
+
 
 const taskReducer = (tasks, action) => {
 	switch (action.type) {
@@ -29,6 +36,8 @@ const taskReducer = (tasks, action) => {
 			return tasks.map((task) =>
 				task.id === action.id ? { ...task, edit: !task.edit } : task,
 			);
+		case "ADD_SUB_TASK":
+			return null//return a sub task of main task
 		default:
 			return tasks;
 	}
