@@ -12,11 +12,11 @@ const initSubState = [
 
 const initState = [
 	{ id: 1, content: "MainTask1", edit: false, children: initSubState },
-	{ id: 2, content: "メインタスク２", edit: false, children: []},
-	{ id: 3, content: "make your day productively", edit: false, children: [] },
+	{ id: 2, content: "メインタスク２", edit: false, children: initSubState},
+	{ id: 3, content: "make your day productively", edit: false, children: initSubState },
 ];
 
-
+//reducer for mainTasks
 const taskReducer = (tasks, action) => {
 	switch (action.type) {
 		case "TASK_ADD":
@@ -36,12 +36,19 @@ const taskReducer = (tasks, action) => {
 			return tasks.map((task) =>
 				task.id === action.id ? { ...task, edit: !task.edit } : task,
 			);
-		case "ADD_SUB_TASK":
-			return null//return a sub task of main task
 		default:
 			return tasks;
 	}
 };
+
+// const subTaskReducer = (tasks, action) => {
+// 	switch(action.type) {
+// 		case "ADD_SUB_TASK":
+// 			return [ ...tasks, { id: tasks.length + 1, content: action.payload, edit: false} ];
+// 		default:
+// 			return tasks;
+// 	}
+// }
 
 export function TodoProvider({ children }) {
 	const [tasks, dispatch] = useReducer(taskReducer, initState);

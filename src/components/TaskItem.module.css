@@ -1,58 +1,42 @@
 .TaskItem {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 8px 0;
+    background-color: #242424;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mainTaskContainer {
+    border-left: 3px solid #4CAF50;
+    margin: 16px 0;
+    padding-left: 8px;
+}
+
+.childrenList {
+    margin-left: 24px;
+    padding-left: 16px;
+    border-left: 2px dashed #ccc;
+    transition: all 0.3s ease;
+}
+
+.showButton {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    color: #666;
+}
+
+.showButton svg {
+    transition: transform 0.3s ease;
+}
+
+.showButton.open svg {
+    transform: rotate(90deg);
 }
 
 .span {
-	text-align: left;
-    flex-grow: 1;
-	margin-right: 16px;
-	color: white;
-}
-.button {
-    /* 固定サイズを指定して確実に円形に */
-    width: 40px;
-    height: 40px;
-    /* クロスブラウザサポート */
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    /* ボックスサイズの計算方法を統一 */
-    box-sizing: border-box;
-    /* パディングを削除して固定サイズを維持 */
-    padding: 0;
-    /* テキストの配置を中央に */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* その他の既存のスタイル */
-    border: 1px solid transparent;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    /* ボタン間のスペース */
-    margin: 0 4px;
-}
-
-/* アクティブ状態のスタイル（モバイルタップ対応） */
-.button:active {
-    background-color: #2a2a2a;
-}
-
-/* タッチデバイスでのタップ時のハイライトを防ぐ */
-.button {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-.childrenList {
-	margin-top: 8px;
-	padding-left: 20px;
-	border-left: 2px solid #eee;
+    flex: 1;
+    margin: 0 12px;
 }

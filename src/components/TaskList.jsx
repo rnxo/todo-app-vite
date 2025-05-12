@@ -1,6 +1,6 @@
 import { useTodoState } from "../context/useTodoContext";
 import { TaskForm } from "./TaskForm";
-import { TaskItem } from "./TaskItem";
+import { Task } from "./TaskItem";
 
 
 export function TaskList() {
@@ -16,7 +16,7 @@ export function TaskList() {
 							editContent={task.content}
 						/>
 					) : (
-						<TaskItem 
+						<Task
 							task={task}
 						/>
 					)}

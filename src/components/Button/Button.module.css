@@ -1,0 +1,40 @@
+.button {
+    /* 固定サイズを指定して確実に円形に */
+    width: 40px;
+    height: 40px;
+    /* クロスブラウザサポート */
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    /* ボックスサイズの計算方法を統一 */
+    box-sizing: border-box;
+    /* パディングを削除して固定サイズを維持 */
+    padding: 0;
+    /* テキストの配置を中央に */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* その他の既存のスタイル */
+    border: 1px solid transparent;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    /* ボタン間のスペース */
+    margin: 0 4px;
+}
+
+/* アクティブ状態のスタイル（モバイルタップ対応） */
+.button:active {
+    background-color: #2a2a2a;
+}
+
+/* タッチデバイスでのタップ時のハイライトを防ぐ */
+.button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
