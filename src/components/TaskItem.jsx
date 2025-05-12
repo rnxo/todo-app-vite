@@ -12,17 +12,38 @@ export function Task({ task }) {
 }
 
 function TaskItem({ task }) {
-	const dispatch = useTodoDispatch();
+    const dispatch = useTodoDispatch();
+    const [editContent, setEditContent] = useState(task.content);
 
-	return (
-		<div className={styles.TaskItem}>
-			<CheckBox task={task} />
-			<span className={styles.span}>{task.content}</span>
-			<Button onClick={() => dispatch({ type: "TOGGLE_EDIT_MODE", id: task.id})}>
-				EDIT
-			</Button>
-		</div>
-	);
+    const handleEdit = () => {
+        if (task.edit) {
+            dispatch({ 
+                type: "TASK_EDITED", 
+                payload: { id: task.id, content: editContent }
+            });
+        } else {
+            dispatch({ type: "TOGGLE_EDIT_MODE", id: task.id });
+        }
+    };
+
+    return (
+        <div className={styles.TaskItem}>
+            <CheckBox task={task} />
+            {task.edit ? (
+                <input
+                    type="text"
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    className={styles.editInput}
+                />
+            ) : (
+                <span className={styles.span}>{task.content}</span>
+            )}
+            <Button onClick={handleEdit}>
+                {task.edit ? 'SAVE' : 'EDIT'}
+            </Button>
+        </div>
+    );
 }
 
 function MainTaskItem({ mainTask }) {
@@ -48,8 +69,16 @@ function MainTaskItem({ mainTask }) {
                         type="button"
 						className={`${styles.showButton} ${isDisp ? styles.open : ''}`}
                         onClick={handleDisp}
+                        aria-label={isDisp ? "Hide subtasks" : "Show subtasks"}
                     >
-                        <svg width="12" height="12" viewBox="0 0 24 24">
+                        <svg 
+                            width="12" 
+                            height="12" 
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                            role="img"
+                        >
+                            <title>Expand/Collapse arrow</title>
                             <path fill="currentColor" d="M8 5v14l11-7z"/>
                         </svg>
                         {isDisp ? 'Hide' : 'Show'} Subtasks

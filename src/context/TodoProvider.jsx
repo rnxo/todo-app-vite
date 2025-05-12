@@ -18,37 +18,41 @@ const initState = [
 
 //reducer for mainTasks
 const taskReducer = (tasks, action) => {
-	switch (action.type) {
-		case "TASK_ADD":
-			return [
-				...tasks,
-				{ id: tasks.length + 1, content: action.payload, edit: false },
-			];
-		case "TASK_DELETE":
-			return tasks.filter((task) => task.id !== action.id);
-		case "TASK_EDITED":
-			return tasks.map((task) =>
-				task.id === action.payload.id
-					? { ...task, content: action.payload.content, edit: !task.edit }
-					: task,
-			);
-		case "TOGGLE_EDIT_MODE":
-			return tasks.map((task) =>
-				task.id === action.id ? { ...task, edit: !task.edit } : task,
-			);
-		default:
-			return tasks;
-	}
-};
+    const updateTaskRecursively = (taskList, targetId, updateFn) => {
+        return taskList.map(task => {
+            if (task.id === targetId) {
+                return updateFn(task);
+            }
+            if (task.children?.length > 0) {
+                return {
+                    ...task,
+                    children: updateTaskRecursively(task.children, targetId, updateFn)
+                };
+            }
+            return task;
+        });
+    };
 
-// const subTaskReducer = (tasks, action) => {
-// 	switch(action.type) {
-// 		case "ADD_SUB_TASK":
-// 			return [ ...tasks, { id: tasks.length + 1, content: action.payload, edit: false} ];
-// 		default:
-// 			return tasks;
-// 	}
-// }
+    switch (action.type) {
+        case "TASK_ADD":
+            return [...tasks, { id: tasks.length + 1, content: action.payload, edit: false }];
+        case "TASK_DELETE":
+            return tasks.filter(task => task.id !== action.id);
+        case "TASK_EDITED":
+            return updateTaskRecursively(tasks, action.payload.id, task => ({
+                ...task,
+                content: action.payload.content,
+                edit: !task.edit
+            }));
+        case "TOGGLE_EDIT_MODE":
+            return updateTaskRecursively(tasks, action.id, task => ({
+                ...task,
+                edit: !task.edit
+            }));
+        default:
+            return tasks;
+    }
+};
 
 export function TodoProvider({ children }) {
 	const [tasks, dispatch] = useReducer(taskReducer, initState);
