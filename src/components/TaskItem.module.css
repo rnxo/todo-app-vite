@@ -5,11 +5,11 @@
     margin: 8px 0;
     background-color: #242424;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(7, 71, 232, 0.781);
 }
 
 .mainTaskContainer {
-    border-left: 3px solid #4CAF50;
+    border-left: 3px solid rgba(7, 71, 232, 0.781);
     margin: 16px 0;
     padding-left: 8px;
 }
