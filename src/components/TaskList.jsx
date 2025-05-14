@@ -1,26 +1,13 @@
 import { useTodoState } from "../context/useTodoContext";
-import { TaskForm } from "./TaskForm";
-import { Task } from "./TaskItem";
-
+import { Task } from "./Task/Task";
 
 export function TaskList() {
 	const tasks = useTodoState();
-		
+
 	return (
 		<ul>
 			{tasks.map((task) => (
-				<div key={task.id}>
-					{task.edit ? (
-						<TaskForm
-							task={task}
-							editContent={task.content}
-						/>
-					) : (
-						<Task
-							task={task}
-						/>
-					)}
-				</div>
+				<Task key={task.id} task={task} />
 			))}
 		</ul>
 	);

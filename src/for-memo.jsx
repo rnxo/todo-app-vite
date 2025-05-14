@@ -59,7 +59,7 @@ function MainTaskItem({ mainTask }) {
                 <CheckBox task={mainTask} />
                 <span className={styles.span}>{mainTask.content}</span>
                 <Button 
-                    type="edit"
+                    
                     onClick={() => dispatch({ type: "TOGGLE_EDIT_MODE", id: mainTask.id })}
                 >
                     EDIT

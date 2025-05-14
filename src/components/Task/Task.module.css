@@ -1,3 +1,8 @@
+.taskItem {
+    display: flex;
+    align-items: center;
+}
+
 .TaskItem {
     display: flex;
     align-items: center;
@@ -6,12 +11,22 @@
     background-color: #242424;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(7, 71, 232, 0.781);
+    gap: 8px;
+    flex: 1;
+    width: 100%; /* 幅を100%に統一 */
+    box-sizing: border-box; /* パディングを含めたサイズ計算 */
 }
 
-.mainTaskContainer {
+.taskContainer {
     border-left: 3px solid rgba(7, 71, 232, 0.781);
     margin: 16px 0;
     padding-left: 8px;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    width: 100%; /* 幅を100%に統一 */
+    flex-direction: column; /* 縦方向のレイアウト */
+    align-items: stretch; /* 子要素を幅いっぱいに */
 }
 
 .childrenList {
@@ -19,6 +34,9 @@
     padding-left: 16px;
     border-left: 2px dashed #ccc;
     transition: all 0.3s ease;
+    align-items: center;
+    width: calc(100% - 40px); /* 親要素の幅からマージンとパディングを引いた幅 */
+    box-sizing: border-box;
 }
 
 .showButton {

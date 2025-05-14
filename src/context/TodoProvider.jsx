@@ -4,29 +4,34 @@ import PropTypes from "prop-types";
 const TodoContext = createContext();
 const TodoDispatchContext = createContext();
 
-const initSubState = [
-	{ id: 11, content: "SubTask1", edit: false, },
-	{ id: 12, content: "サブタスク", edit: false, },
-	{ id: 13, content: "task in task", edit: false, },
+// メインタスクとサブタスクでIDの範囲を分ける
+const generateId = {
+    main: (tasks) => tasks.length + 1,
+    sub: (parentId, subTasks) => Number.parseInt(`${parentId}${subTasks.length + 1}`),
+};
+
+const initSubState = (parentId) => [
+    { id: generateId.sub(parentId, []), content: "SubTask1", edit: false },
+    { id: generateId.sub(parentId, [1]), content: "サブタスク", edit: false },
+    { id: generateId.sub(parentId, [1, 2]), content: "task in task", edit: false },
 ];
 
 const initState = [
-	{ id: 1, content: "MainTask1", edit: false, children: initSubState },
-	{ id: 2, content: "メインタスク２", edit: false, children: initSubState},
-	{ id: 3, content: "make your day productively", edit: false, children: initSubState },
+    { id: 1, content: "MainTask1", edit: false, children: initSubState(1) },
+    { id: 2, content: "メインタスク２", edit: false, children: initSubState(2) },
+    { id: 3, content: "make your day productively", edit: false, children: initSubState(3) },
 ];
 
-//reducer for mainTasks
 const taskReducer = (tasks, action) => {
-    const updateTaskRecursively = (taskList, targetId, updateFn) => {
+    const updateTaskRecursively = (taskList, targetId, updateFunc) => {
         return taskList.map(task => {
             if (task.id === targetId) {
-                return updateFn(task);
+                return updateFunc(task);
             }
             if (task.children?.length > 0) {
                 return {
                     ...task,
-                    children: updateTaskRecursively(task.children, targetId, updateFn)
+                    children: updateTaskRecursively(task.children, targetId, updateFunc)
                 };
             }
             return task;
@@ -35,7 +40,26 @@ const taskReducer = (tasks, action) => {
 
     switch (action.type) {
         case "TASK_ADD":
-            return [...tasks, { id: tasks.length + 1, content: action.payload, edit: false }];
+            return [...tasks, { 
+                id: generateId.main(tasks), 
+                content: action.payload, 
+                edit: false,
+                children: [] 
+            }];
+        case "SUBTASK_ADD":
+            return tasks.map(task => {
+                if (task.id === action.payload.parentId) {
+                    return {
+                        ...task,
+                        children: [...task.children, {
+                            id: generateId.sub(task.id, task.children),
+                            content: action.payload.content,
+                            edit: false
+                        }]
+                    };
+                }
+                return task;
+            });
         case "TASK_DELETE":
             return tasks.filter(task => task.id !== action.id);
         case "TASK_EDITED":

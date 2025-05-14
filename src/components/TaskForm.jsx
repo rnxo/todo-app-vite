@@ -6,25 +6,25 @@ import { Button } from "./Button/Button";
 
 export function TaskForm({ task, editContent }) {
     const dispatch = useTodoDispatch();
-	//state for onChange event
-	const [ editText, setEditText ] = useState(editContent);
-	
-    const handleUpdate = (task) => {
-		dispatch({ type: "TASK_EDITED", payload: { id: task.id, content: editText } });
-	};
+    const [editText, setEditText] = useState(editContent);
+    
+    const handleUpdate = (e) => {
+        e?.preventDefault(); // イベントが存在する場合のみpreventDefault
+        dispatch({ type: "TASK_EDITED", payload: { id: task.id, content: editText } });
+    };
 
     return (
-		<div className={styles.TaskForm}>
-			<input
-				type="text"
-				value={editText}
-				onChange={(e) => setEditText(e.target.value)}
-			/>
-			<Button onClick={() => handleUpdate(task)}>
-				SAVE
-			</Button>
-		</div>
-	);
+        <form onSubmit={handleUpdate} className={styles.TaskForm}>
+            <input
+                type="text"
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+            />
+            <Button type="submit">
+                SAVE
+            </Button>
+        </form>
+    );
 }
 
 TaskForm.propTypes = {
