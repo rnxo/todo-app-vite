@@ -58,3 +58,8 @@
     flex: 1;
     margin: 0 12px;
 }
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}

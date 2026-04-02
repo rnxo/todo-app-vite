@@ -17,15 +17,15 @@ const generateDeadLine = (days = 7) => {
 }
 
 const initSubState = (parentId) => [
-    { id: generateId.sub(parentId, []), content: "SubTask1", edit: false, deadline: generateDeadLine(1) },
-    { id: generateId.sub(parentId, [1]), content: "サブタスク", edit: false, deadline: generateDeadLine(2) },
-    { id: generateId.sub(parentId, [1, 2]), content: "task in task", edit: false, deadline: generateDeadLine(3) },
+    { id: generateId.sub(parentId, []), content: "SubTask1", edit: false, completed: false, deadline: generateDeadLine(1) },
+    { id: generateId.sub(parentId, [1]), content: "サブタスク", edit: false, completed: false, deadline: generateDeadLine(2) },
+    { id: generateId.sub(parentId, [1, 2]), content: "task in task", edit: false, completed: false, deadline: generateDeadLine(3) },
 ];
 
 const initState = [
-    { id: 1, content: "MainTask1", edit: false, deadline: generateDeadLine(1), children: initSubState(1) },
-    { id: 2, content: "メインタスク２", edit: false, deadline: generateDeadLine(2), children: initSubState(2) },
-    { id: 3, content: "make your day productively", edit: false, deadline: generateDeadLine(3), children: initSubState(3) },
+    { id: 1, content: "MainTask1", edit: false, completed: false, deadline: generateDeadLine(1), children: initSubState(1) },
+    { id: 2, content: "メインタスク２", edit: false, completed: false, deadline: generateDeadLine(2), children: initSubState(2) },
+    { id: 3, content: "make your day productively", edit: false, completed: false, deadline: generateDeadLine(3), children: initSubState(3) },
 ];
 
 const taskReducer = (tasks, action) => {
@@ -67,6 +67,11 @@ const taskReducer = (tasks, action) => {
                 }
                 return task;
             });
+        case "TASK_COMPLETE":
+            return updateTaskRecursively(tasks, action.id, task => ({
+                ...task,
+                completed: !task.completed
+            }));
         case "TASK_DELETE":
             return tasks.filter(task => task.id !== action.id);
         case "TASK_EDITED":

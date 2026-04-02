@@ -12,15 +12,20 @@ export function TaskItem({ task, children }) {
         dispatch({ type: "TOGGLE_EDIT_MODE", id: task.id });
     };
 
+    const handleDelete = () => {
+        dispatch({ type: "TASK_DELETE", id: task.id });
+    };
+
     return (
         <div className={styles.TaskItem}>
             <CheckBox task={task} />
             {task.edit ? (
                 <TaskForm task={task} editContent={task.content} />
             ) : (
-                <span className={styles.span}>{task.content}</span>
+                <span className={`${styles.span} ${task.completed ? styles.completed : ""}`}>{task.content}</span>
             )}
             <Button onClick={handleEdit}>{task.edit ? "SAVE" : "EDIT"}</Button>
+            <Button onClick={handleDelete}>DEL</Button>
             {children}
         </div>
     );
