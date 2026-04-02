@@ -2,6 +2,7 @@
 node_modules
 .pnp
 .pnp.js
+features_plan.txt
 
 # Production
 dist

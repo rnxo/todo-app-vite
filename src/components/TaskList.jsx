@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useTodoState } from "../context/useTodoContext";
 import { Task } from "./Task/Task";
 
@@ -11,4 +12,14 @@ export function TaskList() {
 			))}
 		</ul>
 	);
+}
+
+function TaskDeadLine({ task }) {
+	return (
+		<li>{task.content}: {task.deadline}</li>
+	);
+}
+
+TaskDeadLine.propTypes = {
+	task: PropTypes.object.isRequired,
 }

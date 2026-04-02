@@ -10,16 +10,22 @@ const generateId = {
     sub: (parentId, subTasks) => Number.parseInt(`${parentId}${subTasks.length + 1}`),
 };
 
+const generateDeadLine = (days = 7) => {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+}
+
 const initSubState = (parentId) => [
-    { id: generateId.sub(parentId, []), content: "SubTask1", edit: false },
-    { id: generateId.sub(parentId, [1]), content: "サブタスク", edit: false },
-    { id: generateId.sub(parentId, [1, 2]), content: "task in task", edit: false },
+    { id: generateId.sub(parentId, []), content: "SubTask1", edit: false, deadline: generateDeadLine(1) },
+    { id: generateId.sub(parentId, [1]), content: "サブタスク", edit: false, deadline: generateDeadLine(2) },
+    { id: generateId.sub(parentId, [1, 2]), content: "task in task", edit: false, deadline: generateDeadLine(3) },
 ];
 
 const initState = [
-    { id: 1, content: "MainTask1", edit: false, children: initSubState(1) },
-    { id: 2, content: "メインタスク２", edit: false, children: initSubState(2) },
-    { id: 3, content: "make your day productively", edit: false, children: initSubState(3) },
+    { id: 1, content: "MainTask1", edit: false, deadline: generateDeadLine(1), children: initSubState(1) },
+    { id: 2, content: "メインタスク２", edit: false, deadline: generateDeadLine(2), children: initSubState(2) },
+    { id: 3, content: "make your day productively", edit: false, deadline: generateDeadLine(3), children: initSubState(3) },
 ];
 
 const taskReducer = (tasks, action) => {
@@ -38,11 +44,12 @@ const taskReducer = (tasks, action) => {
         });
     };
 
-    switch (action.type) {
+    switch (action.type) {         
         case "TASK_ADD":
             return [...tasks, { 
                 id: generateId.main(tasks), 
-                content: action.payload, 
+                content: action.payload.content || action.payload, 
+                deadline: action.payload.deadline || generateDeadLine(),
                 edit: false,
                 children: [] 
             }];
@@ -50,10 +57,10 @@ const taskReducer = (tasks, action) => {
             return tasks.map(task => {
                 if (task.id === action.payload.parentId) {
                     return {
-                        ...task,
-                        children: [...task.children, {
+                        ...task,                        children: [...task.children, {
                             id: generateId.sub(task.id, task.children),
                             content: action.payload.content,
+                            deadline: action.payload.deadline || generateDeadLine(),
                             edit: false
                         }]
                     };

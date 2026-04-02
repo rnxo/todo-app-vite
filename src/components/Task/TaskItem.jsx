@@ -20,7 +20,7 @@ export function TaskItem({ task, children }) {
             ) : (
                 <span className={styles.span}>{task.content}</span>
             )}
-            <Button onClick={handleEdit}>EDIT</Button>
+            <Button onClick={handleEdit}>{task.edit ? "SAVE" : "EDIT"}</Button>
             {children}
         </div>
     );

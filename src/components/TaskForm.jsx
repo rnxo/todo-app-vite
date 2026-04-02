@@ -2,7 +2,6 @@ import { useTodoDispatch } from "../context/useTodoContext";
 import { useState } from "react";
 import styles from "./TaskForm.module.css";
 import PropTypes from 'prop-types';
-import { Button } from "./Button/Button";
 
 export function TaskForm({ task, editContent }) {
     const dispatch = useTodoDispatch();
@@ -20,9 +19,6 @@ export function TaskForm({ task, editContent }) {
                 value={editText}
                 onChange={(e) => setEditText(e.target.value)}
             />
-            <Button type="submit">
-                SAVE
-            </Button>
         </form>
     );
 }
