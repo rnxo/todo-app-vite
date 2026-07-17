@@ -28,6 +28,9 @@ URL[https://todo-app-vite-chi.vercel.app/]
 | スタイリング | CSS Modules / Tailwind CSS v4 |
 | 型チェック | PropTypes |
 | Lint | ESLint (eslint-plugin-react-hooks) |
+| テスト | Vitest + React Testing Library |
+| CI | GitHub Actions |
+| デプロイ | Vercel（GitHub連携による自動デプロイ） |
 
 ---
 
@@ -54,6 +57,31 @@ npm run build
 # ビルド結果のプレビュー
 npm run preview
 ```
+
+---
+
+## テスト
+
+Vitest と React Testing Library による自動単体・結合テストを導入しています。
+
+```bash
+# テストを実行（ウォッチモード）
+npm run test
+
+# UIモードでテストを実行
+npm run test:ui
+```
+
+`TaskForm` や `TaskItem` などの主要コンポーネント、`taskReducer` の状態遷移、エラーバウンダリの挙動などをカバーしています。
+
+---
+
+## CI/CD
+
+GitHub Actions と Vercel を組み合わせて、以下のパイプラインを構築しています。
+
+- **CI（`.github/workflows/ci.yml`）**: `main` への push・PR作成時に、GitHub Actions が `lint` → `test` → `build` を自動実行します。ブランチ保護ルールにより、このチェックが成功しない限り `main` へのマージはできません。
+- **CD（Vercel）**: Vercel の GitHub 連携により、`main` への push で本番環境へ、PR作成時にはプレビュー環境へ自動デプロイされます。
 
 ---
 
