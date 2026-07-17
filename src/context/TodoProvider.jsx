@@ -105,4 +105,4 @@ TodoProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 };
 
-export { TodoContext, TodoDispatchContext };
+export { TodoContext, TodoDispatchContext, taskReducer };
