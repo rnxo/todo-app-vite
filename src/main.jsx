@@ -7,7 +7,6 @@ import ErrorBoundary from "./ErrorBoundary.jsx";
 createRoot(document.getElementById("root")).render(
 	<ErrorBoundary>
 		<StrictMode>
-			<h2>Todo Application</h2>
 			<App />
 		</StrictMode>
 	</ErrorBoundary>,
